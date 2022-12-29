@@ -47,11 +47,11 @@ pipeline {
 		 sh 'docker container run -d vinod501/app:latest'   
 				sshagent(['k8s-jenkins'])
 				{
-					sh 'scp -r -o StrictHostKeyChecking=no node-deployment.yaml username@102.10.16.23:/path'
+					sh 'scp -r -o StrictHostKeyChecking=no node-deployment.yaml kubernetes@34.123.212.37:/path'
 					
 					script{
 						try{
-							sh 'ssh username@102.10.16.23 kubectl apply -f /path/node-deployment.yaml --kubeconfig=/path/kube.yaml'
+							sh 'ssh kubernetes@34.123.212.37 kubectl apply -f /path/node-deployment.yaml --kubeconfig=/path/kube.yaml'
 
 							}catch(error)
 							{

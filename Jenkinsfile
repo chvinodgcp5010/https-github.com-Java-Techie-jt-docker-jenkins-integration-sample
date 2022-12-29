@@ -27,7 +27,7 @@ pipeline {
 	      sh 'docker -v'
 	      sh 'java -version'
 	      sh 'jenkins --version'
-	      
+	      sh 'gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1 --project ferrous-depth-373006'
             }
         }
         stage('Login') {

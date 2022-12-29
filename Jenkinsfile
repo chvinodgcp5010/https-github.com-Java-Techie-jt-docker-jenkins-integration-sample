@@ -57,20 +57,26 @@ pipeline {
 		}
 	}
 }
-	stage('Deploy to K8s') 	  {
-	  steps{
-		sshagent(['k8s-ssh-key']){
-		  sh 'scp -r -o StrictHostKeyChecking=no node-deployment.yaml kubernetes@34.123.212.37:/path'			
-		   script{
-		     try{
-		        sh 'ssh kubernetes@34.123.212.37 kubectl apply -f /path/node-deployment.yaml --kubeconfig=.kube/config'
-                      }catch(error) {
+		stage('Deploy to K8s')
+		{
+			steps{
+				sshagent(['k8s-jenkins'])
+				{
+					sh 'scp -r -o StrictHostKeyChecking=no node-deployment.yaml username@102.10.16.23:/path'
+					
+					script{
+						try{
+							sh 'ssh username@102.10.16.23 kubectl apply -f /path/node-deployment.yaml --kubeconfig=/path/kube.yaml'
+
+							}catch(error)
+							{
+
+							}
+					}
+				}
+			}
 		}
-		}
-		}
-		}
-		}
-}
+	}
     post {
         //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part04-post-actions/post1.jenkins
         always {

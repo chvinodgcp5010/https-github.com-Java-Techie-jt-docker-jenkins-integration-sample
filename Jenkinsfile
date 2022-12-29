@@ -1,14 +1,14 @@
 pipeline {
     agent any 
     environment {
-		   dockerhub_vnd_cred=credentials('Dockerhub-cred')
-		   //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part02-pipeline-variables/env2.jenkins
-		   //https://www.youtube.com/watch?v=8YyamgWdvFg
-	  }
+	 dockerhub_vnd_cred=credentials('Dockerhub-cred')
+	 //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part02-pipeline-variables/env2.jenkins
+	 //https://www.youtube.com/watch?v=8YyamgWdvFg
+	}
     tools {
         maven 'mvn3'
-        // tools added in global tool configuration mention here otherwise it will not know where to pick maven
-         }
+         // tools added in global tool configuration mention here otherwise it will not know where to pick maven
+        }
     stages {  
         stage ('fetch the code'){
           steps {
@@ -18,32 +18,27 @@ pipeline {
         }
         stage('Build and packaging') { 
           steps {
-	           echo 'build'
-	           sh 'mvn clean install'
-	           sh 'docker build -t vinod501/app .'
+	      echo 'build'
+	      sh 'mvn clean install'
+	      sh 'docker build -t vinod501/app .'
             }
         }
-        stage('Test') { 
-          steps {
-	           echo 'test'
-              // 
-             }
-         }
-         stage('Login') {
-	     steps {
-		 sh 'echo $dockerhub_vnd_cred_PSW | docker login -u $dockerhub_vnd_cred_USR --password-stdin'
-			 }
-		   }
+        stage('Login') {
+	    steps {
+		sh 'echo $dockerhub_vnd_cred_PSW | docker login -u $dockerhub_vnd_cred_USR --password-stdin'
+		 }
+		}
         stage('Push image to docker registry') {
-			    steps {
-				    sh 'docker push vinod501/app:latest'
-			    }
-		   }
-       stage('Deploy') { 
-           steps {
+	   steps {
+		sh 'docker push vinod501/app:latest'
+		}
+	     }
+       stage('Pull image from Dockerhub and Deploy and run image') { 
+          steps {
 	         echo 'deploy'
-               // 
-           }
+                 sh 'docker pull vinod501/app:latest'
+		 sh 'docker container run -d vinod501/app:latest'   
+            }
        }
        
        stage('cleanup local images') { 

@@ -4,7 +4,10 @@ pipeline {
     agent any 
     environment {
 		   DOCKERHUB_CREDENTIALS=credentials('Dockerhub-cred')
+	           GCR_CRED = credentials('jenkins-to-gcr')
+                   GCR_REPO = "gcr.io/${vinod}"
 	  }
+	
     tools {
         maven 'mvn3'
         // tools added in global tool configuration mention here otherwise it will not know where to pick maven
@@ -38,6 +41,11 @@ pipeline {
         stage('Push image to docker registry') {
 			    steps {
 				    sh 'docker push vinod501/app:latest'
+				    sh 'echo "$jenkins-to-gcr" > abc.json'
+ 				    sh 'docker login -u _json_key -p "$(cat abc.json)" https://gcr.io'
+				    sh "docker build . -t ${GCR_REPO}:${IMAGE_TAG}"
+			            sh "docker push ${GCR_REPO}:${IMAGE_TAG}"
+				    sh 'docker logout https://gcr.io'
 			     }
 		   }
        stage('Deploy') { 

@@ -45,21 +45,6 @@ pipeline {
 	         echo 'deploy'
                  sh 'docker pull vinod501/app:latest'
 		 sh 'docker container run -d vinod501/app:latest'   
-            }
-       }
-       
-       stage('cleanup local images') { 
-         steps {
-	      echo 'Deleting all local images'
-            sh 'docker image prune -af'
-            //https://github.com/fatihtepe/Jenkins-Pipeline-to-Push-Docker-Images-to-ECR/blob/main/Jenkinsfile
-            sh 'docker logout'
-		}
-	}
-}
-		stage('Deploy to K8s')
-		{
-			steps{
 				sshagent(['k8s-jenkins'])
 				{
 					sh 'scp -r -o StrictHostKeyChecking=no node-deployment.yaml username@102.10.16.23:/path'
@@ -75,8 +60,19 @@ pipeline {
 					}
 				}
 			}
+            }
+       }
+       
+       stage('cleanup local images') { 
+         steps {
+	      echo 'Deleting all local images'
+            sh 'docker image prune -af'
+            //https://github.com/fatihtepe/Jenkins-Pipeline-to-Push-Docker-Images-to-ECR/blob/main/Jenkinsfile
+            sh 'docker logout'
 		}
 	}
+}
+
     post {
         //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part04-post-actions/post1.jenkins
         always {
@@ -92,4 +88,4 @@ pipeline {
             echo "This block runs when the build is succeeded."
         }
     }
-//}
+}

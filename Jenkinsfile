@@ -4,8 +4,6 @@ pipeline {
     agent any 
     environment {
 		   DOCKERHUB_CREDENTIALS=credentials('Dockerhub-cred')
-	           GCR_CRED=credentials('jenkins-to-gcr')
-                   GCR_REPO="gcr.io/${ferrous-depth-373006}"
 	  }
 	
     tools {
@@ -30,6 +28,7 @@ pipeline {
         stage('Test') { 
           steps {
 	           echo 'test'
+              // 
              }
          }
          stage('Login') {
@@ -51,9 +50,9 @@ pipeline {
            }
        }
     }
-//      post {
-		//always {
-			//sh 'docker logout'
-		//}
-	//}
+      post {
+		always {
+			sh 'docker logout'
+		}
+	}
  }

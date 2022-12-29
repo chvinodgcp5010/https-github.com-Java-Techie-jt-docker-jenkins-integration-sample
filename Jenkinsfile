@@ -44,7 +44,8 @@ pipeline {
            steps {
 	         echo 'deploy'
                  sh 'docker pull vinod501/app:latest'
-		 sh 'docker container run -d -p 8080:8081 vinod501/app:latest'
+		 //sh 'docker container run -d -p 8080:8081 vinod501/app:latest'
+		 sh 'docker container run -d vinod501/app:latest'
            }
        }
     }

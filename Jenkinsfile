@@ -19,8 +19,14 @@ pipeline {
         stage('Build and packaging') { 
           steps {
 	      echo 'build'
-	      sh 'mvn clean install'
 	      sh 'docker build -t vinod501/app .'
+	      sh 'mvn clean install'
+	      echo 'checking all versions'
+	      sh 'mvn -v'
+	      sh 'docker -v'
+	      sh 'java -version'
+	      sh 'jenkins --version'
+	      
             }
         }
         stage('Login') {

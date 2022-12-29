@@ -4,7 +4,7 @@ pipeline {
     agent any 
     environment {
          //DOCKERHUB_CREDENTIALS=credentials('Dockerhub-cred')
-	  abcd=credentials('Dockerhub-cred')
+	  dockerhub-vnd-cred=credentials('Dockerhub-cred')
 	 }
 	
     tools {
@@ -34,7 +34,7 @@ pipeline {
          stage('Login') {
 	     steps {
 		 //sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-		    sh 'echo $abcd_PSW | docker login -u $abcd_USR --password-stdin'
+		    sh 'echo $dockerhub-vnd-cred_PSW | docker login -u $dockerhub-vnd-cred_USR --password-stdin'
 		}
 	    }
         stage('Push image to docker registry') {

@@ -43,7 +43,8 @@ pipeline {
        stage('Deploy') { 
            steps {
 	         echo 'deploy'
-               // 
+                 sh 'docker pull vinod501/app:latest'
+		 
            }
        }
     }

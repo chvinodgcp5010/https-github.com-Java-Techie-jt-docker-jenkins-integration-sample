@@ -40,11 +40,6 @@ pipeline {
         stage('Push image to docker registry') {
 			    steps {
 				    sh 'docker push vinod501/app:latest'
-				    sh 'echo "$jenkins-to-gcr" > abc.json'
- 				    sh 'docker login -u _json_key -p "$(cat abc.json)" https://gcr.io'
-				    sh "docker build . -t ${GCR_REPO}:${IMAGE_TAG}"
-			            sh "docker push ${GCR_REPO}:${IMAGE_TAG}"
-				    sh 'docker logout https://gcr.io'
 			     }
 		   }
        stage('Deploy') { 

@@ -2,6 +2,7 @@ pipeline {
     agent any 
     environment {
 	 dockerhub_vnd_cred=credentials('Dockerhub-cred')
+	 //https://medium.com/codex/deploy-docker-image-to-kubernetes-cluster-using-jenkins-8182cc0a8de7
 	 //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part02-pipeline-variables/env2.jenkins
 	 //https://www.youtube.com/watch?v=8YyamgWdvFg
 	}

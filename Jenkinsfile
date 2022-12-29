@@ -70,7 +70,7 @@ pipeline {
 		}
 		}
 		}
-	//}
+}
     post {
         //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part04-post-actions/post1.jenkins
         always {

@@ -3,7 +3,6 @@ pipeline {
     environment {
 	 dockerhub_vnd_cred=credentials('Dockerhub-cred')
 	 //https://medium.com/codex/deploy-docker-image-to-kubernetes-cluster-using-jenkins-8182cc0a8de7
-	 //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part02-pipeline-variables/env2.jenkins
 	 //https://www.youtube.com/watch?v=8YyamgWdvFg
 	}
     tools {
@@ -20,14 +19,13 @@ pipeline {
         stage('Build and packaging') { 
           steps {
 	      echo 'build'
-	      sh 'docker build -t vinod501/app .'
 	      sh 'mvn clean install'
+	      sh 'docker build -t vinod501/app .'
 	      echo 'checking all versions'
 	      sh 'mvn -v'
 	      sh 'docker -v'
 	      sh 'java -version'
 	      sh 'jenkins --version'
-	      sh 'gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1 --project ferrous-depth-373006'
             }
         }
         stage('Login') {

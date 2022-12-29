@@ -22,9 +22,9 @@ pipeline {
           steps {
 	         echo 'build'
 	         sh 'mvn clean install'
-	         sh 'docker build -t vinod501/app .'
-                // 
-            }
+	         //sh 'docker build -t vinod501/app .'
+		  sh 'docker build -t gcr.io/ferrous-depth-373006/app .'
+                }
         }
         stage('Test') { 
           steps {
@@ -39,8 +39,8 @@ pipeline {
 	    }
         stage('Push image to docker registry') {
 	       steps {
-                  sh 'docker push vinod501/app:latest'
-		  docker tag app:latest gcr.io/ferrous-depth-373006/app
+                  //sh 'docker push vinod501/app:latest'
+		  //docker tag app:latest gcr.io/ferrous-depth-373006/app
                   docker push gcr.io/ferrous-depth-373006/app
 		}
 	}

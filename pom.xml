@@ -11,7 +11,7 @@
     <finalName>docker-jenkins-integration-sample</finalName>
 </build>
 
-//https://stackoverflow.com/questions/49028810/error-source-option-1-5-is-no-longer-supported-use-1-6-or-later
+#https://stackoverflow.com/questions/49028810/error-source-option-1-5-is-no-longer-supported-use-1-6-or-later
          
 <properties>
     <maven.compiler.source>1.6</maven.compiler.source>

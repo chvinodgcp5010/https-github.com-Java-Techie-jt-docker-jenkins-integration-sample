@@ -1,12 +1,11 @@
-//Pipeline
-
 pipeline {
     agent any 
     environment {
-         //DOCKERHUB_CREDENTIALS=credentials('Dockerhub-cred')
-	  dockerhub_vnd_cred=credentials('Dockerhub-cred')
-	 }
-	
+		   //dockerhub_vnd_cred=credentials('Dockerhub-cred')
+		   dockerhub_vnd_cred=credentials('jenkins-to-gcr')
+		   //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part02-pipeline-variables/env2.jenkins
+		   //https://www.youtube.com/watch?v=8YyamgWdvFg
+	  }
     tools {
         maven 'mvn3'
         // tools added in global tool configuration mention here otherwise it will not know where to pick maven
@@ -20,39 +19,59 @@ pipeline {
         }
         stage('Build and packaging') { 
           steps {
-	         echo 'build'
-	         sh 'mvn clean install'
-	         //sh 'docker build -t vinod501/app .'
-		  sh 'docker build -t gcr.io/ferrous-depth-373006/app .'
-                }
+	           echo 'build'
+	           sh 'mvn clean install'
+	           //sh 'docker build -t vinod501/app .'
+		   sh 'docker build -t us.gcr.io/ferrous-depth-373006/sample-php-app .'
+                // 
+            }
         }
         stage('Test') { 
           steps {
-	      echo 'test'
+	           echo 'test'
+              // 
              }
          }
          stage('Login') {
 	     steps {
-		 //sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-		    sh 'echo $dockerhub_vnd_cred_PSW | docker login -u $dockerhub_vnd_cred_USR --password-stdin'
-		}
-	    }
+		 sh 'echo $dockerhub_vnd_cred_PSW | docker login -u $dockerhub_vnd_cred_USR --password-stdin'
+			 }
+		   }
         stage('Push image to docker registry') {
-	       steps {
-                  sh 'docker push vinod501/app:latest'
-		}
-	}
+			    steps {
+				    //sh 'docker push vinod501/app:latest'
+				    sh 'docker push us.gcr.io/ferrous-depth-373006/sample-php-app'
+			     }
+		   }
        stage('Deploy') { 
            steps {
 	         echo 'deploy'
-                 sh 'docker pull vinod501/app:latest'
-		 sh 'docker container run -d vinod501/app:latest'
+               // 
            }
        }
-    }
-      post {
-	always {
-		sh 'docker logout'
+       
+       stage('cleanup local images') { 
+         steps {
+	      echo 'Deleting all local images'
+            sh 'docker image prune -af'
+            //https://github.com/fatihtepe/Jenkins-Pipeline-to-Push-Docker-Images-to-ECR/blob/main/Jenkinsfile
+            sh 'docker logout'
 		}
 	}
- }
+}
+    post {
+        //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part04-post-actions/post1.jenkins
+        always {
+            echo "This block always runs."
+        }
+        aborted {
+            echo "This block runs when the build process is aborted."
+        }
+        failure {
+            echo "This block runs when the build is failed."
+        }
+        success {
+            echo "This block runs when the build is succeeded."
+        }
+    }
+}

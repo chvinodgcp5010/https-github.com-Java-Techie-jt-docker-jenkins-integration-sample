@@ -39,16 +39,13 @@ pipeline {
 	    }
         stage('Push image to docker registry') {
 	       steps {
-                  //sh 'docker push vinod501/app:latest'
-		  //docker tag app:latest gcr.io/ferrous-depth-373006/app
-                  docker push gcr.io/ferrous-depth-373006/app
+                  sh 'docker push vinod501/app:latest'
 		}
 	}
        stage('Deploy') { 
            steps {
 	         echo 'deploy'
                  sh 'docker pull vinod501/app:latest'
-		 //sh 'docker container run -d -p 8080:8081 vinod501/app:latest'
 		 sh 'docker container run -d vinod501/app:latest'
            }
        }

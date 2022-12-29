@@ -1,8 +1,7 @@
 pipeline {
     agent any 
     environment {
-		   //dockerhub_vnd_cred=credentials('Dockerhub-cred')
-		   dockerhub_vnd_cred=credentials('jenkins-to-gcr')
+		   dockerhub_vnd_cred=credentials('Dockerhub-cred')
 		   //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part02-pipeline-variables/env2.jenkins
 		   //https://www.youtube.com/watch?v=8YyamgWdvFg
 	  }
@@ -21,9 +20,7 @@ pipeline {
           steps {
 	           echo 'build'
 	           sh 'mvn clean install'
-	           //sh 'docker build -t vinod501/app .'
-		   sh 'docker build -t us.gcr.io/ferrous-depth-373006/sample-php-app .'
-                // 
+	           sh 'docker build -t vinod501/app .'
             }
         }
         stage('Test') { 
@@ -39,9 +36,8 @@ pipeline {
 		   }
         stage('Push image to docker registry') {
 			    steps {
-				    //sh 'docker push vinod501/app:latest'
-				    sh 'docker push us.gcr.io/ferrous-depth-373006/sample-php-app'
-			     }
+				    sh 'docker push vinod501/app:latest'
+			    }
 		   }
        stage('Deploy') { 
            steps {

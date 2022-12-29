@@ -40,7 +40,7 @@ pipeline {
         stage('Push image to docker registry') {
 	       steps {
                   sh 'docker push vinod501/app:latest'
-		  docker tag vinod501/app gcr.io/ferrous-depth-373006/app
+		  docker tag app:latest gcr.io/ferrous-depth-373006/app
                   docker push gcr.io/ferrous-depth-373006/app
 		}
 	}

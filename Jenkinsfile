@@ -3,8 +3,8 @@
 pipeline {
     agent any 
     environment {
-		   DOCKERHUB_CREDENTIALS=credentials('Dockerhub-cred')
-	  }
+         DOCKERHUB_CREDENTIALS=credentials('Dockerhub-cred')
+	 }
 	
     tools {
         maven 'mvn3'
@@ -19,27 +19,26 @@ pipeline {
         }
         stage('Build and packaging') { 
           steps {
-	           echo 'build'
-	           sh 'mvn clean install'
-	           sh 'docker build -t vinod501/app .'
+	         echo 'build'
+	         sh 'mvn clean install'
+	         sh 'docker build -t vinod501/app .'
                 // 
             }
         }
         stage('Test') { 
           steps {
-	           echo 'test'
-              // 
+	      echo 'test'
              }
          }
          stage('Login') {
 	     steps {
 		 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-			 }
-		   }
+		}
+	    }
         stage('Push image to docker registry') {
-			    steps {
-				    sh 'docker push vinod501/app:latest'
-			     }
+	       steps {
+                  sh 'docker push vinod501/app:latest'
+			}
 		   }
        stage('Deploy') { 
            steps {
@@ -51,8 +50,8 @@ pipeline {
        }
     }
       post {
-		always {
-			sh 'docker logout'
+	always {
+		sh 'docker logout'
 		}
 	}
  }

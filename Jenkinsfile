@@ -63,15 +63,15 @@ pipeline {
             }
        }
        
-       stage('cleanup local images') { 
-         steps {
-	      echo 'Deleting all local images'
-            sh 'docker image prune -af'
+       //stage('cleanup local images') { 
+         //steps {
+	      //echo 'Deleting all local images'
+            //sh 'docker image prune -af'
             //https://github.com/fatihtepe/Jenkins-Pipeline-to-Push-Docker-Images-to-ECR/blob/main/Jenkinsfile
-            sh 'docker logout'
-		}
-	}
-}
+            //sh 'docker logout'
+		//}
+	//}
+//}
 
     post {
         //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part04-post-actions/post1.jenkins

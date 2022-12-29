@@ -45,33 +45,18 @@ pipeline {
 	         echo 'deploy'
                  sh 'docker pull vinod501/app:latest'
 		 sh 'docker container run -d vinod501/app:latest'   
-				sshagent(['k8s-jenkins'])
-				{
-					sh 'scp -r -o StrictHostKeyChecking=no node-deployment.yaml kubernetes@34.123.212.37:/path'
-					
-					script{
-						try{
-							sh 'ssh kubernetes@34.123.212.37 kubectl apply -f /path/node-deployment.yaml --kubeconfig=/path/kube.yaml'
-
-							}catch(error)
-							{
-
-							}
-					}
-				}
-			}
             }
        }
        
-       //stage('cleanup local images') { 
-         //steps {
-	      //echo 'Deleting all local images'
-            //sh 'docker image prune -af'
+       stage('cleanup local images') { 
+         steps {
+	      echo 'Deleting all local images'
+            sh 'docker image prune -af'
             //https://github.com/fatihtepe/Jenkins-Pipeline-to-Push-Docker-Images-to-ECR/blob/main/Jenkinsfile
-            //sh 'docker logout'
-		//}
-	//}
-//}
+            sh 'docker logout'
+		}
+	}
+}
 
     post {
         //https://github.com/chvinodgcp5010/jenkinsfile-tutorial/blob/master/part04-post-actions/post1.jenkins

@@ -1,37 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodeapp-deployment
-  labels:
-     app: nodeapp
-     type: front-end
+ name: hello
+ labels:
+  app: hello
 spec:
-  template:
-     metadata:
-       name: nodejsapp-pod
-       labels: 
-         app: nodejsapp
-         type: front-end
-     spec:
-         containers:
-           - name: nodejsapp-erp
-             image: "bharathirajatut/erp:1.0"
-  replicas: 1
-  selector:
+ replicas: 1
+ selector:
     matchLabels:
-      type: front-end
+      app: hello
+ strategy:
+  type: Recreate
+ template:
+  metadata:
+    labels:
+      app: hello
+      tier: hello
+  spec:
+    containers:
+    - name: hello
+      image: vinod501/app:latest
+      imagePullPolicy: Always
+      ports:
+      - containerPort: 80
+        name: hello
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nodejs-service
+ name: hello
+ labels:
+  app: hello
 spec:
-  selector:
-    app: nodejsapp
-  type: LoadBalancer  
-  ports:
-    - protocol: TCP
-      targetPort: 3000
-      port: 80
-      nodePort: 30000
+ ports:
+  - port: 80
+    targetPort: 80
+ selector:
+  app: hello
+  tier: hello
+ type: LoadBalancer

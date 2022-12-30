@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-name: hello
-labels:
+ name: hello
+ labels:
   app: hello
 spec:
-strategy:
+ strategy:
   type: Recreate
-template:
+ template:
   metadata:
     labels:
       app: hello
@@ -25,14 +25,14 @@ template:
 apiVersion: v1
 kind: Service
 metadata:
-name: hello
-labels:
+ name: hello
+ labels:
   app: hello
 spec:
-ports:
+ ports:
   - port: 5000
     targetPort: 5000
-selector:
+ selector:
   app: hello
   tier: hello
-type: LoadBalancer
+ type: LoadBalancer

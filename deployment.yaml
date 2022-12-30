@@ -19,10 +19,10 @@ spec:
   spec:
     containers:
     - name: hello
-      image: vinod501/app:latest
+      image: nginx:latest
       imagePullPolicy: Always
       ports:
-      - containerPort: 5000
+      - containerPort: 80
         name: hello
 
 ---
@@ -34,8 +34,8 @@ metadata:
   app: hello
 spec:
  ports:
-  - port: 5000
-    targetPort: 5000
+  - port: 80
+    targetPort: 80
  selector:
   app: hello
   tier: hello

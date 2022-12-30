@@ -5,6 +5,10 @@ metadata:
  labels:
   app: hello
 spec:
+ replicas: 3
+ selector:
+    matchLabels:
+      app: hello
  strategy:
   type: Recreate
  template:
@@ -13,10 +17,6 @@ spec:
       app: hello
       tier: hello
   spec:
-   replicas: 3
-   selector:
-    matchLabels:
-      app: hello
     containers:
     - name: hello
       image: DOCKER-HUB-USERNAME/hello:latest

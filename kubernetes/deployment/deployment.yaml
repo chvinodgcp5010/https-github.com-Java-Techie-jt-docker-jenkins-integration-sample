@@ -19,7 +19,7 @@ spec:
   spec:
     containers:
     - name: hello
-      #image: vinod501/app:latest
+      image: vinod501/app1:latest
       imagePullPolicy: Always
       ports:
       - containerPort: 80

@@ -56,7 +56,7 @@ pipeline {
        stage('DEPLOY APPLICATION to GKECLUSTER') {
            steps{
                 sh 'export USE_GKE_GCLOUD_AUTH_PLUGIN=True'
-                sh 'gcloud container clusters get-credentials steallantis-gke --zone us-central1-c --project ferrous-depth-373006'
+                sh 'gcloud container clusters get-credentials iqoo-cluster --zone us-central1-c --project ferrous-depth-373006'
                 sh 'kubectl delete -f kubernetes/deployment/deployment.yaml || echo \"deployment not available\"'
                 sh 'kubectl create -f kubernetes/deployment/deployment.yaml'
             }
